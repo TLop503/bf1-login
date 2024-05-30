@@ -45,7 +45,8 @@ def login():
         # Retrieve salt from the database
         with open(db_pth, 'r') as file:
             db_data = json.load(file)
-            salt = db_data[data['user']]['salt']
+            salt_hex = db_data[data['user']]['salt']
+            salt = bytes.fromhex(salt_hex)  # Decode hex string to bytes
 
         # Hash the provided password with the retrieved salt
         hashed_pass = hash(data['user'], data['pass'], salt)
